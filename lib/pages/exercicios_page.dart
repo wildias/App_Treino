@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../db/database_helper.dart';
 
 class ExerciciosPage extends StatefulWidget {
+  const ExerciciosPage({super.key});
+
   @override
   State<ExerciciosPage> createState() => _ExerciciosPageState();
 }
@@ -82,27 +84,86 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Treinos da $nomeDia'),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: adicionarExercicio,
             tooltip: 'Adicionar Exercício',
-          )
+          ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: exercicios.length,
-        itemBuilder: (context, index) {
-          final exercicio = exercicios[index];
-          return ListTile(
-            title: Text(exercicio['nome']),
-            leading: Checkbox(
-              value: exercicio['feito'] == 1,
-              onChanged: (_) => toggleFeito(index),
+      body: Stack(
+        children: [
+          // Imagem de fundo
+          Opacity(
+            opacity: 0.05,
+            child: Center(
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 260,
+                fit: BoxFit.contain,
+              ),
             ),
-            onTap: () => abrirDetalhes(exercicio),
-          );
-        },
+          ),
+
+          // Conteúdo principal
+          ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: exercicios.length,
+            itemBuilder: (context, index) {
+              final exercicio = exercicios[index];
+              final feito = exercicio['feito'] == 1;
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: InkWell(
+                  onTap: () => abrirDetalhes(exercicio),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: feito
+                          ? Colors.green.shade300
+                          : Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: feito,
+                          onChanged: (_) => toggleFeito(index),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            exercicio['nome'],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

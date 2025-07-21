@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import '../db/database_helper.dart';
 
 class ResultadoPage extends StatefulWidget {
+  const ResultadoPage({super.key});
+
   @override
   State<ResultadoPage> createState() => _ResultadoPageState();
 }
 
 class _ResultadoPageState extends State<ResultadoPage> {
-  final List<String> diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
+  final List<String> diasSemana = [
+    'Segunda',
+    'Terça',
+    'Quarta',
+    'Quinta',
+    'Sexta',
+  ];
   int diasCompletos = 0;
   String mensagem = '';
 
@@ -55,10 +63,7 @@ class _ResultadoPageState extends State<ResultadoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Resumo da Semana'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Resumo da Semana'), centerTitle: true),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -80,7 +85,7 @@ class _ResultadoPageState extends State<ResultadoPage> {
                       onPressed: voltarParaHome,
                       icon: const Icon(Icons.arrow_back),
                       label: const Text('Voltar'),
-                    )
+                    ),
                   ],
                 ),
         ),

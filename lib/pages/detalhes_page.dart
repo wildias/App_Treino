@@ -39,8 +39,9 @@ class _DetalhesPageState extends State<DetalhesPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    exercicio =
+    final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    exercicio = Map<String, dynamic>.from(args); // cria uma cópia mutável
     id = exercicio['id'];
     sessoesController.text = (exercicio['sessoes'] ?? 3).toString();
     pesoController.text = (exercicio['peso'] ?? 0.0).toString();
@@ -76,7 +77,21 @@ class _DetalhesPageState extends State<DetalhesPage> {
     exercicio['imagem'] = imagemPath;
 
     await DatabaseHelper.instance.atualizar(exercicio);
-    Navigator.pop(context);
+
+    // Mostrar mensagem de sucesso
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Exercício salvo com sucesso!'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // Aguardar o SnackBar antes de voltar
+      await Future.delayed(const Duration(seconds: 2));
+      Navigator.pop(context);
+    }
   }
 
   @override

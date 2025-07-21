@@ -71,6 +71,32 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
     await carregarExercicios();
   }
 
+  Future<void> confirmarExclusao(Map<String, dynamic> exercicio) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Excluir Exercício'),
+        content: Text('Tem certeza que deseja excluir "${exercicio['nome']}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Excluir'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await DatabaseHelper.instance.deletar(exercicio['id']);
+      await carregarExercicios();
+    }
+  }
+
   void abrirDetalhes(Map<String, dynamic> exercicio) {
     Navigator.pushNamed(
       context,
@@ -120,6 +146,7 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: InkWell(
                   onTap: () => abrirDetalhes(exercicio),
+                  onLongPress: () => confirmarExclusao(exercicio),
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
                     padding: const EdgeInsets.symmetric(

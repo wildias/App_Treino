@@ -1,3 +1,4 @@
+import 'package:app_treino/utils/fullscreen_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../widgets/dia_card.dart';
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     verificarResetSemanal();
     carregarProgresso();
+    ativarModoFullscreen();
   }
 
   void verificarResetSemanal() async {

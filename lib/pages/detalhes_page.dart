@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app_treino/utils/fullscreen_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,6 +27,7 @@ class _DetalhesPageState extends State<DetalhesPage> {
     sessoesController = TextEditingController();
     pesoController = TextEditingController();
     repeticoesController = TextEditingController();
+    ativarModoFullscreen();
   }
 
   @override

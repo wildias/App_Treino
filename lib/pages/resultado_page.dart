@@ -1,3 +1,4 @@
+import 'package:app_treino/utils/fullscreen_helper.dart';
 import 'package:flutter/material.dart';
 import '../db/database_helper.dart';
 
@@ -23,6 +24,7 @@ class _ResultadoPageState extends State<ResultadoPage> {
   void initState() {
     super.initState();
     calcularResultado();
+    ativarModoFullscreen();
   }
 
   Future<void> calcularResultado() async {
